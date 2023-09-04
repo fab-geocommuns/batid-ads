@@ -1,6 +1,6 @@
-
-// React
+// Hooks
 import React, { use, useContext, useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation'
 
 // Styles
 import { fr } from "@codegouvfr/react-dsfr";
@@ -10,21 +10,23 @@ import styles from './VisuPanel.module.css'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import { addDash } from '@/utils/identifier';
 
-// Bus
-import Bus from '@/utils/Bus';
+// Store
+import { useSelector, useDispatch } from "react-redux";
+import { bdgApiUrl, setMoveTo } from '@/stores/map/slice';
 
 // Analytics
 import va from "@vercel/analytics"
-import { log } from 'console';
+
 
 export default function VisuPanel() {
 
-    
+    // Store
+    const dispatch = useDispatch()
+    const bdg = useSelector((state) => state.panelBdg)
 
-    const [rnbId, setRnbId] = useState(null)
-    const [bdg, setBdg] = useState(null)
+    // URL params
+    const params = useSearchParams()
 
-    
     const [copied, setCopied] = useState(false);
 
     const hasBdg = () => {
@@ -38,40 +40,9 @@ export default function VisuPanel() {
             setCopied(false)
         }, 2000)
     }
-    
-
-    useEffect(() => {
-        Bus.on("map:bdgclick", setRnbId)
-
-        return () => {
-            Bus.off("map:bdgclick", setRnbId)
-        }
-
-    }, [])
-
-    useEffect(() => {
-
-        if (rnbId === null) return
-
-        
-
-        fetch(apiUrl())
-            .then(res => res.json())
-            .then(data => {
-                setBdg(data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-
-    }, [rnbId])
 
     const apiUrl = () => {
-
-        if (rnbId === null) return null
-
-        return process.env.NEXT_PUBLIC_API_BASE + '/buildings/' + rnbId
-
+        return bdgApiUrl(bdg?.rnb_id)
     }
 
     const statusLabel = () => {
@@ -85,7 +56,7 @@ export default function VisuPanel() {
     }
 
     const easyRnbId = () => {
-        return addDash(rnbId)
+        return addDash(bdg?.rnb_id)
     }
 
     const banAddresses = () => {
@@ -93,12 +64,17 @@ export default function VisuPanel() {
         return bdg?.addresses?.filter(a => a.source === "BAN")
     }
 
+  
+
+   
+
     if (hasBdg()) {
         return (
             <>
             <div>
                 <hr />
                 <div className={styles.section}>
+                    
                 <h2 className={styles.sectionTitle}>Identifiant RNB</h2>
 
                 <div className={styles.rnbidShell}>
@@ -175,7 +151,9 @@ export default function VisuPanel() {
             </>
         )
     } else {
-        return (<></>)
+        return (<>
+        
+        </>)
     }
 
     
