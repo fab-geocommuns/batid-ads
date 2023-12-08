@@ -1,7 +1,7 @@
 'use client'
 
 // Styles
-import styles from '@/styles/map.module.scss'
+import styles from '@/styles/mapPage.module.scss'
 
 // Hooks
 import { useEffect } from 'react';
@@ -35,6 +35,8 @@ export default function RNBMap() {
             query: results.search.query,
             result_insee_code: insee_code
         })
+
+        window.hj('event', 'address-search-public-map')
 
     }
 

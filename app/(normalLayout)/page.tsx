@@ -1,15 +1,17 @@
-
 // Styles
 import styles from '@/styles/home.module.scss'
 
 // Components
 import { Card } from "@codegouvfr/react-dsfr/Card"
-import { SearchBar} from "@codegouvfr/react-dsfr/SearchBar"
 import ImageNext from 'next/image'
 import CasListe from '@/components/CasListe'
+import NewsletterForm from '@/components/NewsletterForm'
+import Alert from '@codegouvfr/react-dsfr/Alert'
+import Notice from '@codegouvfr/react-dsfr/Notice'
 
 // Banner
 import bannerPic from '@/public/images/homeBanner/bordeaux.jpg'
+import bannerPicMid from '@/public/images/homeBanner/bordeaux-mid.jpg'
 import bannerPicSm from '@/public/images/homeBanner/bordeaux-sm.jpg'
 import arrowPic from '@/public/images/homeBanner/arrow.svg'
 
@@ -24,7 +26,10 @@ import rapprochementIllu from '@/public/images/rapprochement.png'
 import apiIllu from '@/public/images/api.png'
 import adsIllu from '@/public/images/ads.png'
 
+
 export default function Home() {
+
+    const bannerId = "7NF2-9MDK-T3H7";
     
     return (
         <>
@@ -33,18 +38,24 @@ export default function Home() {
             <div className="section">
                 <div className="fr-grid-row fr-grid-row--gutters">
                     <div className="fr-col-12 ">
-                        <div className={styles.banner}>
+                        <div className={`${styles.banner} ${styles["banner--default"]}`}>
                             <div className={styles.banner__content}>
                                 <h1 className={styles.banner__title}>Le Référentiel National des Bâtiments</h1>
                                 <p className={styles.banner__subtitle}>Référencer l&apos;intégralité des bâtiments du territoire français au sein de données et d&apos;outils libres</p>
                                 <a href="/carte" className='fr-btn'>Voir la carte des bâtiments</a>
                             </div> 
                             
-                            <ImageNext src={arrowPic} alt="" className={styles.banner__arrow} />
-                            <a href="/carte?q=7NF2-9LDK-T3H7" className={styles.banner__rnb_id}>7NF2-9LDK-T3H7</a>
+                            <div className={styles.banner__arrowtarget}>
+                                <ImageNext src={arrowPic} alt="" className={styles.banner__arrow} />
+                                <a href={`carte?q=${bannerId}`} className={styles.banner__rnb_id}>{bannerId}</a>
+                            </div>
 
-                            <ImageNext className='none md-block'  alt="" src={bannerPic} />
-                            <ImageNext className='md-none resp-image' alt="" src={bannerPicSm} />
+                            
+                            <ImageNext className={`sm-none resp-image ${styles.banner__image}`} alt="" src={bannerPicSm} />
+                            <ImageNext className={`none sm-block lg-none resp-image ${styles.banner__image}`}  alt="" src={bannerPicMid} />
+                            <ImageNext className={`none lg-block ${styles.banner__image}`}  alt="" src={bannerPic} />
+                            
+                            
 
                             
                         </div>
@@ -54,8 +65,17 @@ export default function Home() {
 
             <div className="section">
                 <div className='fr-grid-row fr-grid-row--gutters'>
-                <div className="fr-col-12 ">
-                        <div className="block block--paleBlue">
+                    <div className='fr-col-12 fr-col-md-10 fr-col-offset-md-1'>
+                        <Alert title="Identifiants sujets à changements" description="Les identifiants des bâtiments seront rendus stables au mois de décembre 2023. D'ici là, ils peuvent être amenés à changer. Si vous souhaitez être avertis lorsque les identifiants seront rendus stables, inscrivez-vous à notre infolettre." severity="info"></Alert>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div className="section">
+                <div className='fr-grid-row fr-grid-row--gutters'>
+                <div className="fr-col-12 fr-col-md-7">
+                        <div className="block block--blue">
                         <h3 className="block__title">Carte des bâtiments</h3>
                         <p className="block__subtitle">Cherchez une adresse ou un identifiant RNB et consultez les 48 millions de bâtiments référencés.</p>
                         <form action="/carte" method="get">
@@ -73,6 +93,26 @@ export default function Home() {
                         </form>
                         </div>
                     </div>
+
+                    <div className="fr-col-8 fr-col-md-5">
+                    <div className="block block--paleBlue">
+                        <h3 className="block__title">Inscription infolettre</h3>
+                        <p>Restez informé des actualités et des nouvelles fonctionnalités du RNB.</p>
+                        
+
+
+<NewsletterForm />
+
+
+
+
+                        </div>
+                    </div>
+
+                    
+                    
+                    
+                    
                 </div>
             </div>
 

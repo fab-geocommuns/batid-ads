@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^0.51.0",
+    "@hotjar/browser": "^1.0.9",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
@@ -28,7 +29,8 @@
     "react-dom": "18.2.0",
     "react-redux": "^8.1.2",
     "react-select": "^5.7.3",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "yaml": "^2.3.2"
   },
   "devDependencies": {
     "sass": "^1.66.1"

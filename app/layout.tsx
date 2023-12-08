@@ -13,7 +13,10 @@ import RNBSessionProvider from '@/components/SessionProvider'
 import RNBHeader from "@/components/RNBHeader";
 import { Analytics } from '@vercel/analytics/react';
 import FlashMessage from "@/components/FlashMessage";
+import Script from "next/script";
 
+// Settings
+import settings from '@/logic/settings'
 
 export const metadata = {
   title: 'Référentiel National des Bâtiments',
@@ -28,6 +31,9 @@ export default async function RootLayout({
 }) {
 
 
+  
+  
+
 
   return (    
     
@@ -35,6 +41,18 @@ export default async function RootLayout({
       <head>
         <StartDsfr />
         <DsfrHead defaultColorScheme={defaultColorScheme} />
+        <Script id="hotjar">
+          {`
+(function(h,o,t,j,a,r){
+  h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+  h._hjSettings={hjid:${settings.hotjarId},hjsv:${settings.hotjarVersion}};
+  a=o.getElementsByTagName('head')[0];
+  r=o.createElement('script');r.async=1;
+  r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+  a.appendChild(r);
+})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+          `}
+        </Script>
       </head>
       <body>
         <RNBSessionProvider>

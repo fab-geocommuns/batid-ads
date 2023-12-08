@@ -19,6 +19,10 @@ import { bdgApiUrl, closePanel, openPanel } from '@/stores/map/slice';
 // Analytics
 import va from "@vercel/analytics"
 
+// Comps
+import Notice from '@codegouvfr/react-dsfr/Notice';
+import ContributionForm from '@/components/ContributionForm';
+
 
 export default function VisuPanel() {
 
@@ -83,8 +87,14 @@ export default function VisuPanel() {
                 <div className={styles.section}>
 
                 <a href="#" onClick={close} className={styles.closeLink}><i className='fr-icon-close-line' /></a>
+                <div className='fr-mb-8v'>
+                
+                <Notice title="Les identifiants de bâtiments seront stabilisés au mois de décembre 2023." />
+                </div>
                     
                 <h2 className={styles.sectionTitle}>Identifiant RNB</h2>
+
+                
 
                 <div className={styles.rnbidShell}>
                     <div className={styles.rnbidShell__id}>{easyRnbId()}</div>
@@ -138,12 +148,24 @@ export default function VisuPanel() {
                         
                         </div>
                 </div>
+                
+                <div className="none">
                 <div className={styles.section}>
                     <h2 className={styles.sectionTitle}>Identifiant BD Topo</h2>
                     <div className={styles.sectionBody}>
                         {bdg?.ext_bdtopo_id?.length === 0 ? (<em>Aucun identifiant lié</em>) : bdg?.ext_bdtopo_id}
                     
                     </div>
+                </div>
+                </div>
+                
+
+                
+
+                <div className={styles.section}>
+                    <h2 className={styles.sectionTitle}>Proposer une modification</h2>
+                    
+                    <ContributionForm />
                 </div>
 
                 <div className={styles.section}>
@@ -152,7 +174,6 @@ export default function VisuPanel() {
                         <a href={apiUrl()} target="_blank">Format JSON</a>
                     </div>
                 </div>
-
 
                 
                 

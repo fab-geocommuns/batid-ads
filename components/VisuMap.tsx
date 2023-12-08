@@ -3,6 +3,7 @@
 // Style
 import { fr } from "@codegouvfr/react-dsfr";
 import 'maplibre-gl/dist/maplibre-gl.css';
+import styles from '@/styles/mapComp.module.scss'
 
 // Map style
 import vector from '@/components/mapstyles/vector.json'
@@ -169,7 +170,7 @@ export default function VisuMap() {
         tiles: [
           tilesUrl
         ],
-        minzoom: 16,
+        minzoom: 14,
         maxzoom: 22,
         promoteId: 'rnb_id'
       })
@@ -228,13 +229,27 @@ export default function VisuMap() {
   // //////////////////
   useEffect(() => {
 
+
+
     if (!map.current) {
+
+      mapContainer.current.style.opacity = '0';
+
       map.current = new maplibregl.Map({
         container: mapContainer.current,
         center: [2.852577494863663, 46.820936580547134],
         zoom: 5,
         attributionControl: false
+
       });
+
+      map.current.once('load', () => {
+        console.log('Map rendered');
+        map.current.resize();
+        mapContainer.current.style.opacity = '1';
+      });
+
+      
 
 
       initMapControls();
@@ -282,7 +297,7 @@ export default function VisuMap() {
 
   return (
     <>
-      <div style={{ width: '100%', height: '100%' }} ref={mapContainer} />
+      <div className={styles.map} ref={mapContainer} />
     </>
 
   );
