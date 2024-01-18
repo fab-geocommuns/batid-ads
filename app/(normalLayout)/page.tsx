@@ -6,8 +6,6 @@ import { Card } from "@codegouvfr/react-dsfr/Card"
 import ImageNext from 'next/image'
 import CasListe from '@/components/CasListe'
 import NewsletterForm from '@/components/NewsletterForm'
-import Alert from '@codegouvfr/react-dsfr/Alert'
-import Notice from '@codegouvfr/react-dsfr/Notice'
 
 // Banner
 import bannerPic from '@/public/images/homeBanner/bordeaux.jpg'
@@ -17,7 +15,7 @@ import arrowPic from '@/public/images/homeBanner/arrow.svg'
 
 // Logos
 import logoAdeme from '@/public/images/logos/ademe.svg'
-import logoCstb from '@/public/images/logos/cstb.png'
+import logoCstb from '@/public/images/logos/cstb-bdnb.png'
 import logoIgn from '@/public/images/logos/ign.png'
 import logoDgaln from '@/public/images/logos/dgaln.png'
 
@@ -29,7 +27,7 @@ import adsIllu from '@/public/images/ads.png'
 
 export default function Home() {
 
-    const bannerId = "7NF2-9MDK-T3H7";
+    const bannerId = "M11Z-4KK9-Y338";
     
     return (
         <>
@@ -65,15 +63,6 @@ export default function Home() {
 
             <div className="section">
                 <div className='fr-grid-row fr-grid-row--gutters'>
-                    <div className='fr-col-12 fr-col-md-10 fr-col-offset-md-1'>
-                        <Alert title="Identifiants sujets à changements" description="Les identifiants des bâtiments seront rendus stables au mois de décembre 2023. D'ici là, ils peuvent être amenés à changer. Si vous souhaitez être avertis lorsque les identifiants seront rendus stables, inscrivez-vous à notre infolettre." severity="info"></Alert>
-                        
-                    </div>
-                </div>
-            </div>
-
-            <div className="section">
-                <div className='fr-grid-row fr-grid-row--gutters'>
                 <div className="fr-col-12 fr-col-md-7">
                         <div className="block block--blue">
                         <h3 className="block__title">Carte des bâtiments</h3>
@@ -85,7 +74,7 @@ export default function Home() {
                                 className='fr-input' 
                                 type="text" 
                                 name="q"
-                                placeholder="un bâtiment : SBW3-HVPC-LHD8 ou une adresse : 42, rue des architectes, Nantes"
+                                placeholder="un bâtiment : 1GA7-PBYM-1QDY ou une adresse : 42, rue des architectes, Nantes"
                                  />
                                  <button className="fr-btn" type="submit">Rechercher</button>
                             </div>
@@ -94,7 +83,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <div className="fr-col-8 fr-col-md-5">
+                    <div className="fr-col-12 fr-col-md-5">
                     <div className="block block--paleBlue">
                         <h3 className="block__title">Inscription infolettre</h3>
                         <p>Restez informé des actualités et des nouvelles fonctionnalités du RNB.</p>
@@ -171,6 +160,20 @@ export default function Home() {
                 </div>
                 </div>
 
+            </div>
+
+            <div className="section">
+                <div className='fr-grid-row fr-grid-row--gutters'>
+                    <div className='fr-col-12'>
+                        
+                        <div className='block block--yellow block--fill'>
+                            <h2 className='blockTitle'>D&apos;où proviennent les données du RNB ?</h2>
+                            <p>Les bâtiments présentés dans le RNB sont essentiellement issus d&apos;une fusion de la BDNB, éditée par le Centre Scientifique et Technique du Bâtiment (CSTB) et de la BD Topo, éditée par l&apos;Institut national de l&apos;information géographique et forestière (IGN).</p>
+                            <div className="blockLinkShell"><a href="/faq" className='fr-btn fr-btn--secondary'>Consulter la Foire aux Questions</a></div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
             
             
