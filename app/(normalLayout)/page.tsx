@@ -18,16 +18,26 @@ import logoAdeme from '@/public/images/logos/ademe.svg'
 import logoCstb from '@/public/images/logos/cstb-bdnb.png'
 import logoIgn from '@/public/images/logos/ign.png'
 import logoDgaln from '@/public/images/logos/dgaln.png'
+import logoFnv from '@/public/images/logos/france-nation-verte.jpg'
+import logoDinum from '@/public/images/logos/dinum.webp'
 
 // Other illustrations
 import rapprochementIllu from '@/public/images/rapprochement.png'
 import apiIllu from '@/public/images/api.png'
 import adsIllu from '@/public/images/ads.png'
 
+// Ghost CMS
+import { getBreakingNews } from '@/utils/blog'
 
-export default function Home() {
+
+async function getData() {
+    return await getBreakingNews();
+}
+
+export default async function Home() {
 
     const bannerId = "M11Z-4KK9-Y338";
+    const breakingNews = await getData();
     
     return (
         <>
@@ -59,9 +69,25 @@ export default function Home() {
                         </div>
                     </div>  
                 </div>
+
+                
+
             </div>
 
+            {breakingNews.featured && <>
+                
+                <div className='fr-grid-row'>
+                    <div className='fr-col-8 fr-col-offset-2'>
+                    <div dangerouslySetInnerHTML={{__html: breakingNews.html}}></div>
+                    </div>
+                </div>
+                </>}
+
             <div className="section">
+
+
+           
+
                 <div className='fr-grid-row fr-grid-row--gutters'>
                 <div className="fr-col-12 fr-col-md-7">
                         <div className="block block--blue">
@@ -86,7 +112,7 @@ export default function Home() {
                     <div className="fr-col-12 fr-col-md-5">
                     <div className="block block--paleBlue">
                         <h3 className="block__title">Inscription infolettre</h3>
-                        <p>Restez informé des actualités et des nouvelles fonctionnalités du RNB.</p>
+                        <p>Restez informé des <a href="/blog">actualités et des nouvelles fonctionnalités</a> du RNB.</p>
                         
 
 
@@ -198,8 +224,15 @@ export default function Home() {
                             </div>
                             <div className="fr-col-md-3 fr-col-6 text-center">
                                 <ImageNext className={`resp-image ${styles.sponsorBlock__logo} ${styles["sponsorBlock__logo--dgaln"]}`} src={logoDgaln} alt="Direction générale de l’aménagement, du logement et de la nature" />
-                            </div>
                             
+                            </div>
+                            <div className="fr-col-md-2 fr-col-4 text-center">
+                                <ImageNext className={styles.sponsorBlock__logo} src={logoFnv} alt="France Nation Verte" />
+                            </div>
+                            <div className="fr-col-md-2 fr-col-4 text-center">
+                                <ImageNext className={styles.sponsorBlock__logo} src={logoDinum} alt="Direction interministérielle du numérique" />
+                            </div>
+
                             
                             
                         </div>
