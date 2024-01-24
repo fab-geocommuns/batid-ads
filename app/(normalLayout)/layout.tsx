@@ -24,7 +24,13 @@ export default function WithFooterLayout({
         {children}
         <Footer
           brandTop={<>République<br/>Française</>}
-          accessibility="partially compliant"
+          accessibility="non compliant"
+          accessibilityLinkProps={
+            {
+              href: "/accessibilite",
+              title: "En savoir plus sur l'accessibilité de ce site"
+            }
+          }
           linkList={[
             {
               categoryName: "À propos",
@@ -81,12 +87,14 @@ export default function WithFooterLayout({
                     href:"https://github.com/fab-geocommuns/RNB-site"
                   },
                   text: "Github"
+
                 }, 
                 {
                   linkProps: {
                     href: "https://stats.uptimerobot.com/n0w4LilK0r",
                   },
                   text: "Statut des services",
+
                 }
               ]
             }

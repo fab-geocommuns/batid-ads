@@ -3,15 +3,19 @@
 // Lib
 import { getPost, formattedDate } from '@/utils/blog';
 
-// Comps
+// Components
 import TagsList from '@/components/blog/TagsList';
 import BackToTop from '@/components/BackToTop';
+import NewsletterForm from '@/components/NewsletterForm'
 
 // Style
 import styles from '@/styles/blogArticle.module.scss'
 
 // SEO
 import { Metadata, ResolvingMetadata } from 'next'
+
+// Force cached parts (ghost content) to be refreshed every 10 seconds
+export const revalidate = 10
 
 async function getData(slug: string) {
     return await getPost(slug);
@@ -21,7 +25,7 @@ export async function generateMetadata(
     { params }: { params: { slug: string } },
     parent: ResolvingMetadata
   ): Promise<Metadata> {
-    // The same request is made twice, but it's cached by Next.js
+    // The same request is made twice, but it's cached by Next.js and the React cache function
     const post = await getData(params.slug);
     return {
         title: post.title,
@@ -76,6 +80,15 @@ export default async function Page({
                     
 
                     <div className={styles.articleBody} dangerouslySetInnerHTML={{__html: post.html}}></div>
+
+
+
+                    <div className="block block--paleBlue block--smallNewsletterShell fr-mt-24v">
+                        
+                        <p><b>Inscription infolettre</b><br/>Recevez l&apos;actualité du RNB directement dans votre boite email.</p>
+                        <NewsletterForm />
+                    </div>  
+
                     </div>
                     
                 </div>
