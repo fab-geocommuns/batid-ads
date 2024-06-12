@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 // Components
 import VisuMap from '@/components/VisuMap'
 import VisuPanel from '@/components/VisuPanel'
-import AddressSearch from '@/components/AddressSearch'
+import AddressSearchMap from '@/components/AddressSearchMap'
 
 // Analytics
 import va from "@vercel/analytics"
@@ -28,16 +28,11 @@ export default function RNBMap() {
 
     // //////////////////////
     // Tracking address search
-    const trackAddressSearch = (results) => {
-
-        let insee_code = results.search.features?.[0]?.properties?.citycode
-        
+    const trackAddressSearch = (address) => {
         va.track("address-search-public-map", {
-            query: results.search.query,
-            result_insee_code: insee_code
+            query: address.label,
+            result_insee_code: address.insee_code,
         })
-
-        window.hj('event', 'address-search-public-map')
 
 
     }
@@ -75,13 +70,7 @@ export default function RNBMap() {
 
 
                 <div className={styles.map}>
-
-                    <div className={styles.map__InputShell}>
-                        
-                        <AddressSearch />
-                    </div>
-
-                    
+                    <AddressSearchMap />
                     <VisuPanel />
                     
                     

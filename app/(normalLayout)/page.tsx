@@ -6,6 +6,8 @@ import { Card } from "@codegouvfr/react-dsfr/Card"
 import ImageNext from 'next/image'
 import CasListe from '@/components/CasListe'
 import NewsletterForm from '@/components/NewsletterForm'
+import AddressSearchHome from '@/components/AddressSearchHome'
+
 
 // Banner
 import bannerPic from '@/public/images/homeBanner/bordeaux.jpg'
@@ -19,7 +21,7 @@ import logoCstb from '@/public/images/logos/cstb-bdnb.png'
 import logoIgn from '@/public/images/logos/ign.png'
 import logoDgaln from '@/public/images/logos/dgaln.png'
 import logoFnv from '@/public/images/logos/france-nation-verte.jpg'
-import logoDinum from '@/public/images/logos/dinum.webp'
+import logoDinum from '@/public/images/logos/dinum.png'
 
 // Other illustrations
 import rapprochementIllu from '@/public/images/rapprochement.png'
@@ -29,21 +31,24 @@ import adsIllu from '@/public/images/ads.png'
 // Ghost CMS
 import { getBreakingNews } from '@/utils/blog'
 
+// Utils
+import { getDatabasesCount, getFeaturedDatabases } from '@/utils/databases'
+import HomeDBList from '@/components/homeDBList'
+
 
 export const revalidate = 10
 
-async function getData() {
-    return await getBreakingNews();
-}
 
 export default async function Home() {
 
-    const bannerId = "M11Z-4KK9-Y338";
-    const breakingNews = await getData();
+    const bannerId = "M11Z4KK9Y338";
+    const breakingNews = await getBreakingNews();
+    const dbs = await getFeaturedDatabases();
+    const dbsCount = await getDatabasesCount();
     
     return (
         <>
-            <div className="fr-container fr-py-12v">
+            <div className="fr-container fr-pt-12v">
 
             <div className="section">
                 <div className="fr-grid-row fr-grid-row--gutters">
@@ -79,61 +84,58 @@ export default async function Home() {
             {breakingNews.featured && <>
                 
                 <div className='fr-grid-row'>
-                    <div className='fr-col-8 fr-col-offset-2'>
+                    <div className='fr-col-12 fr-col-md-8 fr-col-offset-md-2'>
                     <div dangerouslySetInnerHTML={{__html: breakingNews.html}}></div>
                     </div>
                 </div>
                 </>}
 
             <div className="section">
-
-
-           
-
                 <div className='fr-grid-row fr-grid-row--gutters'>
                 <div className="fr-col-12 fr-col-md-7">
                         <div className="block block--blue">
                         <h3 className="block__title">Carte des bâtiments</h3>
                         <p className="block__subtitle">Cherchez une adresse ou un identifiant RNB et consultez les 48 millions de bâtiments référencés.</p>
-                        <form action="/carte" method="get">
-
-                            <div className="fr-search-bar">
-                                <input 
-                                className='fr-input' 
-                                type="text" 
-                                name="q"
-                                placeholder="un bâtiment : 1GA7-PBYM-1QDY ou une adresse : 42, rue des architectes, Nantes"
-                                 />
-                                 <button className="fr-btn" type="submit">Rechercher</button>
-                            </div>
-
-                        </form>
+                                <AddressSearchHome />
                         </div>
                     </div>
 
                     <div className="fr-col-12 fr-col-md-5">
                     <div className="block block--paleBlue">
-                        <h3 className="block__title">Inscription infolettre</h3>
-                        <p>Restez informé des <a href="/blog">actualités et des nouvelles fonctionnalités</a> du RNB.</p>
+                        <h3 className="block__title">Actualités</h3>
+                        <p>Restez informé des <a href="/blog">actualités</a> du RNB en vous inscrivant à l&apos;infolettre ou en nous suivant sur <a href="https://www.linkedin.com/company/r-f-rentiel-national-des-b-timents/">LinkedIn</a>.</p>
                         <NewsletterForm />
                         </div>
                     </div>    
                 </div>
             </div>
+        
+
+            
+            <div className="section section__big ">
+                <div className={styles.dbsShell}>
+                <div className="section__titleblock">
+                    <h2 className="section__title">Enrichissez vos bases de données bâtimentaires</h2>
+                    <p className="section__subtitle">Les identifiants de bâtiments RNB servent de pivot entre des données jusqu&apos;à présent isolées</p>
+                </div>
+                    <HomeDBList dbs={dbs} dbsCount={dbsCount} />
+                </div>
+                </div>
+
 
             <div className="section">
-                <div className={`${styles.homeCardsSection} fr-grid-row fr-grid-row--gutters`}>
+                <div className="fr-grid-row fr-grid-row--gutters">
                     <div className="fr-col-12 ">
 
-                <div className={styles.homeCardsSection__titleblock}>
-                <h2 className={styles.homeCardsSection__title}>Outils et services</h2>
-                <p className={styles.homeCardsSection__subtitle}>Consulter, intégrer et alimenter le référentiel</p>
+                <div className="section__titleblock">
+                <h2 className="section__title">Outils et services</h2>
+                <p className="section__subtitle">Consultez, intégrez et alimentez le référentiel</p>
                 </div>    
                 <div className="fr-grid-row fr-grid-row--gutters">
                     <div className="fr-col-12 fr-col-md-4 ">
                     <Card
                     imageUrl={rapprochementIllu.src}
-                    desc="Obtenez les identifiants RNB d'un bâtiment et croisez des bases jusqu&apos;à présent isolées."
+                    desc="Obtenez les identifiants RNB d'un bâtiment et croisez des données jusqu&apos;à présent isolées."
                     linkProps={{ href: "/outils-services/rapprochement" }}
                     title="Rapprochement de bases bâtimentaires"
                     />
@@ -152,7 +154,7 @@ export default async function Home() {
                     <Card
                     imageUrl={adsIllu.src}
                     desc="Utilisez vos outils d'instruction d'ADS pour alimenter le RNB. Soyez prévenus lorsque des bâtiments sont achevés sur votre territoire."
-                    linkProps={{ href: "/ads" }}
+                    linkProps={{ href: "/outils-services/autorisation-droit-sols" }}
                     title="Autorisations du droit des sols"
                     />
 
@@ -163,12 +165,12 @@ export default async function Home() {
                 </div>
             </div>
             <div className="section">
-                <div className={`${styles.homeCardsSection} fr-grid-row fr-grid-row--gutters`}>
+                <div className="fr-grid-row fr-grid-row--gutters">
                     
                 <div className="fr-col-12 ">
-                <div className={styles.homeCardsSection__titleblock}>
-                    <h2 className={styles.homeCardsSection__title}>Cas d&apos;usage</h2>
-                    <p className={styles.homeCardsSection__subtitle}>Exemples d&apos;utilisation du RNB</p>
+                <div className="section__titleblock">
+                    <h2 className="section__title">Cas d&apos;usage</h2>
+                    <p className="section__subtitle">Exemples d&apos;utilisation du RNB</p>
 
                 </div>
 
@@ -216,10 +218,10 @@ export default async function Home() {
                                 <ImageNext className={`resp-image ${styles.sponsorBlock__logo} ${styles["sponsorBlock__logo--dgaln"]}`} src={logoDgaln} alt="Direction générale de l’aménagement, du logement et de la nature" />
                             
                             </div>
-                            <div className="fr-col-md-2 fr-col-4 text-center">
+                            <div className="fr-col-md-3 fr-col-6 text-center">
                                 <ImageNext className={styles.sponsorBlock__logo} src={logoFnv} alt="France Nation Verte" />
                             </div>
-                            <div className="fr-col-md-2 fr-col-4 text-center">
+                            <div className="fr-col-md-3 fr-col-6 text-center">
                                 <ImageNext className={styles.sponsorBlock__logo} src={logoDinum} alt="Direction interministérielle du numérique" />
                             </div>
 
@@ -227,9 +229,9 @@ export default async function Home() {
                             
                         </div>
                     </div>
-                </div>
+                
             </div>
-
+</div>
                 
              
             </div>

@@ -18,6 +18,7 @@ import settings from '@/logic/settings'
 export default function Page() {
 
     const formUrl = settings.adsFormUrl;
+    const contactEmail = settings.contactEmail;
 
     return (
         <>
@@ -35,7 +36,7 @@ export default function Page() {
                                     <p><b><span className='stab stab--yellowStrong'>Ce service est gratuit et réservé aux collectivités.</span></b></p>
                                     
                                     <div className="blockLinkShell blockLinkShell--noGrow">
-                                            <a className="fr-btn" target='_blank' href={formUrl}>Demander un accès</a>
+                                            <a className="fr-btn" target='_blank' href={`mailto:${contactEmail}`}>Demander un accès</a>
                                     </div>
                                 </div>
                     </div>
@@ -76,7 +77,7 @@ export default function Page() {
                                             </div>
                                             <h3 className={styles.benef__title}>Gardez vos outils d&apos;instruction</h3>
                                             <div className={styles.benef__desc}>
-                                            Les outils ADS du RNB sont compatibles avec les principaux logiciels du marché. Nous mettons également à disposition <a href="https://rnb-fr.gitbook.io/documentation/api-et-outils/api-ads">une API dédiée</a>.
+                                            Les outils ADS du RNB sont compatibles avec les principaux logiciels du marché. Vous disposez également de <a href="https://rnb-fr.gitbook.io/documentation/api-et-outils/api-ads">l&apos;API RNB dédiée aux autorisations du droit des sols</a>.
                                             </div>
                                             
                                         </div>
@@ -139,18 +140,7 @@ export default function Page() {
                             </div>    
 
                             </div>
-                            <div className="section">
-                            <div className={styles.homeCardsSection__titleblock}>
-                    <h2 >Cas d&apos;usage</h2>
-                    <p>
-                        Vous êtes une commune, une métropole, ce service est fait pour vous.<br />
-                        Retrouvez les exemples d’utilisation du RNB par d’autres acteurs ci-dessous.
-                    </p>
-
-                </div>
-
-                <CasList />
-                            </div>
+                         
                             </div>
 
                             

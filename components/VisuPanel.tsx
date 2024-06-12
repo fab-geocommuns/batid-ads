@@ -8,9 +8,8 @@ import { useSearchParams } from 'next/navigation'
 import { fr } from "@codegouvfr/react-dsfr";
 import styles from '@/styles/mapPanel.module.scss'
 
-// UI Tools
+// Comps
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import { addDash } from '@/utils/identifier';
 
 // Store
 import { useDispatch, useSelector } from "react-redux";
@@ -36,6 +35,24 @@ export default function VisuPanel() {
 
     const [copied, setCopied] = useState(false);
 
+    const getStatusLabel = (status: string) => {
+
+        const labels = {
+            'constructionProject': 'En projet',
+            'canceledConstructionProject': 'Projet annulé',
+            'ongoingConstruction': 'Construction en cours',
+            'constructed': 'Construit',
+            'ongoingChange': 'En cours de modification',
+            'notUsable': 'Non utilisable',
+            'demolished': 'Démoli',
+        }
+
+        const label = labels[status]
+
+        return label
+
+    }
+
   
 
     const handleCopy = () => {
@@ -52,16 +69,40 @@ export default function VisuPanel() {
 
     const statusLabel = () => {
         
-        const currentStatus = bdg?.status?.find(s => s.is_current)
+        
+        const bdgStatus = bdg?.status
 
-        if (currentStatus === undefined) return "Inconnu"
+        if (bdgStatus === undefined) return "Inconnu"
+        if (bdgStatus === null) return "Inconnu"
 
-        return currentStatus.label
+        // Bdg status is a string, we are on the new format
+        if (typeof bdgStatus === "string") return getStatusLabel(bdgStatus)
+
+        // Bdg status is an array, we are on the old format -> it can be removed once the backend PR https://github.com/fab-geocommuns/RNB-coeur/pull/327 is merged and deployed
+        if (Array.isArray(bdgStatus)) {
+            const currentStatus = bdg?.status?.find(s => s.is_current)
+            return currentStatus.label    
+        }
+
 
     }
 
     const easyRnbId = () => {
-        return addDash(bdg?.rnb_id)
+        return addSpace(bdg?.rnb_id)
+    }
+
+    function addSpace(rnb_id) {
+        if (rnb_id) {
+            return rnb_id.split('').map((char, i) => {
+                let classes = ""
+                if (i == 4 || i == 8) {
+                    classes = styles["small-left-padding"]
+                }
+                return <span key={"rnb-id-char" + i} className={classes}>{char}</span >
+            })
+        } else {
+            return null
+        }
     }
 
     
@@ -97,7 +138,7 @@ export default function VisuPanel() {
                     
                     <CopyToClipboard 
                         onCopy={() => handleCopy()}
-                        text={easyRnbId()}>
+                        text={bdg?.rnb_id}>
 
                     <div className={styles.rnbidShell__copy}>
                         {copied ? <span>Copié <i className={fr.cx("fr-icon-success-line")}></i></span> : <span>Copier <i className={fr.cx("fr-icon-clipboard-line")}></i></span>}
