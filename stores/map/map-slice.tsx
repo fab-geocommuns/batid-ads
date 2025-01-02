@@ -24,6 +24,7 @@ export interface SelectedBuilding {
     city_insee_code: string;
   }[];
   ext_ids: any[];
+  plots: any[];
   is_active: boolean;
 }
 
@@ -41,6 +42,16 @@ interface BuildingADS {
 
 export type SelectedItem = SelectedBuilding | SelectedADS;
 
+export type MapLayers = {
+  background: MapBackgroundLayer;
+  buildings: MapBuildingsLayer;
+  extraLayers: MapExtraLayer[];
+};
+
+export type MapBackgroundLayer = 'satellite' | 'vector';
+export type MapBuildingsLayer = 'point' | 'polygon';
+export type MapExtraLayer = 'ads' | 'plots';
+
 export type MapStore = {
   panelIsOpen: boolean;
   addressSearch: {
@@ -57,6 +68,7 @@ export type MapStore = {
   marker?: [number, number];
   reloadBuildings?: number;
   selectedItem?: SelectedItem;
+  layers: MapLayers;
 };
 
 const initialState: MapStore = {
@@ -65,12 +77,32 @@ const initialState: MapStore = {
     results: [],
     unknown_rnb_id: false,
   },
+  layers: {
+    background: 'vector',
+    buildings: 'point',
+    extraLayers: ['ads'],
+  },
 };
 
 export const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
+    setLayersBackground(state, action) {
+      state.layers.background = action.payload;
+    },
+    setLayersBuildings(state, action) {
+      state.layers.buildings = action.payload;
+    },
+    toggleExtraLayer(state, action) {
+      const index = state.layers.extraLayers.indexOf(action.payload);
+      if (index === -1) {
+        state.layers.extraLayers.push(action.payload);
+      } else {
+        state.layers.extraLayers.splice(index, 1);
+      }
+    },
+
     setAddressSearchQuery(state, action) {
       if (action.payload != state.addressSearch.q) {
         state.addressSearch.q = action.payload;
@@ -146,7 +178,7 @@ export const selectBuilding = createAsyncThunk(
   async (rnbId: string | null, { dispatch }) => {
     if (!rnbId) return;
 
-    const url = bdgApiUrl(rnbId + '?from=site');
+    const url = bdgApiUrl(rnbId + '?from=site&withPlots=1');
     const rnbResponse = await fetch(url);
 
     if (rnbResponse.ok) {
